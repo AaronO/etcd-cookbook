@@ -12,7 +12,12 @@ template '/etc/init/etcd.conf' do
 end
 
 service 'etcd' do
-  provider Chef::Provider::Service::Upstart
+  case node["platform"]
+  when "ubuntu"
+    if node["platform_version"].to_f >= 9.10
+      provider Chef::Provider::Service::Upstart
+    end
+  end
   supports status: true, restart: true, reload: true
   action [:enable, :start]
 end

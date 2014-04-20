@@ -17,6 +17,8 @@ service 'etcd' do
     if node["platform_version"].to_f >= 9.10
       provider Chef::Provider::Service::Upstart
     end
+  when "debian"
+    provider Chef::Provider::Service::Debian
   end
   supports status: true, restart: true, reload: true
   action [:enable, :start]
